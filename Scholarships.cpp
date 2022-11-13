@@ -9,16 +9,18 @@
 
 #include "scholarships.h"
 
+static vector<Scholarship> scholars;
+static ofstream fout;
 
 int main()
 {
 	string sFileLine;				 // a string to read in each line of the file
 	vector<string> sParsedLine;      // array to hold the parsed line from file
-	vector<Scholarship> scholars;    // Create an array of structures
+	//vector<Scholarship> scholars;    // Create an array of structures
 
 	// Open input and output files and test to make sure they openned correctly
 	ifstream fin;
-	ofstream fout;
+	//ofstream fout;
 	OpenFiles(fin, fout);
 
 	while(!fin.eof())
@@ -75,24 +77,26 @@ int main()
 	} while (doAgain == 'Y' || doAgain == 'y');
 
 	int iAmountSearch;
+	pos = 0;
 	do
 	{
 		// Get the ID to search for
 		cout << "\nEnter the least amount of individual scholarship: ";
 		cin  >> iAmountSearch;
 		
-		// Search for the object
-		pos = search(scholars, iAmountSearch);
+		createReportHeadings(fout);
+		while(pos != -1)
+			// Search for the object
+			pos = search(scholars, iAmountSearch);
+		
 		
 		// If pos = -1, the code was not found
 		if (pos == -1)
+		{
 			cout << "That code does not exist in the arrary\n";
-		else
-		{	// The object was found, so use pos to ge the
-			// description and price
-			createReportHeadings(fout);
-			writeFile(scholars[pos], fout); // write a line to the output file
-		}
+			break;
+		}			
+
 		//  Does the user want to loop up another price?
 		cout << "\nLook up another price(Y/N)? ";
 		cin  >> doAgain;
@@ -325,17 +329,17 @@ int search(vector<Scholarship> s, 		//Pass copy of the entire array
 {
 	int index = 0;				//Used as a subscript to search array
 	int position = -1;			//Used to record position of search value
-	bool found = false;			//Flag to indicate if the value was found
 	
-	while (index < (int)s.size() && !found)
+	while (index < (int)s.size())
 	{
 		if (s[index].Amount >= iLookFor)		// If the value is found
 		{
-			found = true;					// Set the flag
 			position = index;				// Record the value's subscript
+			writeFile(scholars[position], fout);
 		}
 		index++;							// Go to the next element
 	}
+	position = -1;
 	return position;						// Return the position, or -1
 } // End search
 
@@ -347,7 +351,7 @@ void bubbleSort(vector<Scholarship> &s)
 	do
 	{
 		swap = false;
-		for(int count = 0; count < (s.size() -1); count++)
+		for(int count = 0; count < ((int)s.size() -1); count++)
 		{
 			if(s[count].Lname > s[count + 1].Lname)
 			{
