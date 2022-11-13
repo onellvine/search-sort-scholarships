@@ -25,6 +25,8 @@ int main()
 		// Read a line from the file and push onto end ofscholars object array
 		scholars.push_back(readFile(sFileLine, sParsedLine, fin));
 
+	bubbleSort(scholars);
+
 	int sArraySize = scholars.size();       // Get the size of the array
 	for(int i = 0; i < sArraySize; i++)
 		writeFile(scholars[i], fout);		// Write a line to the output file
@@ -337,3 +339,24 @@ int search(vector<Scholarship> s, 		//Pass copy of the entire array
 	return position;						// Return the position, or -1
 } // End search
 
+void bubbleSort(vector<Scholarship> &s)
+{
+	Scholarship temp;
+	bool swap;
+
+	do
+	{
+		swap = false;
+		for(int count = 0; count < (s.size() -1); count++)
+		{
+			if(s[count].Lname > s[count + 1].Lname)
+			{
+				temp = s[count];
+				s[count] = s[count + 1];
+				s[count + 1] = temp;
+				swap = true;
+			}
+		}
+	} while (swap);
+	
+} // End bubbleSort
