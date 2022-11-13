@@ -33,3 +33,6 @@ void createReportHeadings(ofstream &fout);
 string addCommas(int num);
 void createReportSummary(vector<Scholarship> sArray, ofstream &fout);
 void writeFile(Scholarship s, ofstream &fout, string sType);
+
+int search(vector<Scholarship> s, string sLookFor);
+int search(vector<Scholarship> s, int iLookFor);

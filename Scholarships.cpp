@@ -46,8 +46,8 @@ int main()
 	// Ask the user for an ID to search for
 	string sIDsearch;
 	int pos;
-	int search(vector<Scholarship> s, 		//Pass copy of the entire array
-			string sLookFor);			// ID to lookfor
+	// int search(vector<Scholarship> s, 		//Pass copy of the entire array
+	// 		string sLookFor);			// ID to lookfor
 	char doAgain;
 	do
 	{
@@ -65,7 +65,31 @@ int main()
 		{	// The object was found, so use pos to ge the
 			// description and price
 			createReportHeadings(fout);
-			writeFile(scholars); // write a line to the output file
+			writeFile(scholars[pos], fout); // write a line to the output file
+		}
+		//  Does the user want to loop up another price?
+		cout << "\nLook up another price(Y/N)? ";
+		cin  >> doAgain;
+	} while (doAgain == 'Y' || doAgain == 'y');
+
+	int iAmountSearch;
+	do
+	{
+		// Get the ID to search for
+		cout << "\nEnter the least amount of individual scholarship: ";
+		cin  >> iAmountSearch;
+		
+		// Search for the object
+		pos = search(scholars, iAmountSearch);
+		
+		// If pos = -1, the code was not found
+		if (pos == -1)
+			cout << "That code does not exist in the arrary\n";
+		else
+		{	// The object was found, so use pos to ge the
+			// description and price
+			createReportHeadings(fout);
+			writeFile(scholars[pos], fout); // write a line to the output file
 		}
 		//  Does the user want to loop up another price?
 		cout << "\nLook up another price(Y/N)? ";
@@ -246,10 +270,10 @@ int search(vector<Scholarship> s, 		//Pass copy of the entire array
 			string sLookFor)			// ID to lookfor
 {
 	int index = 0;				//Used as a subscript to search array
-	int position = -1			//Used to record position of search value
+	int position = -1;			//Used to record position of search value
 	bool found = false;			//Flag to indicate if the value was found
 	
-	while (index < s.size() && !found)
+	while (index < (int)s.size() && !found)
 	{
 		if (s[index].ID == sLookFor)		// If the value is found
 		{
@@ -280,7 +304,7 @@ void writeFile(Scholarship s,    // Pass in by value- no need to change string i
 	if(lineCount == 30) // Ready for next page
 	{
 		cout << endl; // 
-		createReportHeadings(fout);
+		createReportHeadings();
 		lineCount = 0;
 	}
 	if(sType == s.Type)
@@ -294,13 +318,22 @@ void writeFile(Scholarship s,    // Pass in by value- no need to change string i
 }
 
 
-
-
-
-
-
-
-
-
-
+int search(vector<Scholarship> s, 		//Pass copy of the entire array
+			int iLookFor)			// ID to lookfor
+{
+	int index = 0;				//Used as a subscript to search array
+	int position = -1;			//Used to record position of search value
+	bool found = false;			//Flag to indicate if the value was found
+	
+	while (index < (int)s.size() && !found)
+	{
+		if (s[index].Amount >= iLookFor)		// If the value is found
+		{
+			found = true;					// Set the flag
+			position = index;				// Record the value's subscript
+		}
+		index++;							// Go to the next element
+	}
+	return position;						// Return the position, or -1
+} // End search
 
