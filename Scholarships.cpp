@@ -9,18 +9,16 @@
 
 #include "scholarships.h"
 
-static vector<Scholarship> scholars;
-static ofstream fout;
 
 int main()
 {
 	string sFileLine;				 // a string to read in each line of the file
 	vector<string> sParsedLine;      // array to hold the parsed line from file
-	//vector<Scholarship> scholars;    // Create an array of structures
+	vector<Scholarship> scholars;    // Create an array of structures
 
 	// Open input and output files and test to make sure they openned correctly
 	ifstream fin;
-	//ofstream fout;
+	ofstream fout;
 	OpenFiles(fin, fout);
 
 	while(!fin.eof())
@@ -87,7 +85,7 @@ int main()
 		createReportHeadings(fout);
 		while(pos != -1)
 			// Search for the object
-			pos = search(scholars, iAmountSearch);
+			pos = search(scholars, iAmountSearch, fout);
 		
 		
 		// If pos = -1, the code was not found
@@ -325,7 +323,7 @@ void writeFile(Scholarship s,    // Pass in by value- no need to change string i
 
 
 int search(vector<Scholarship> s, 		//Pass copy of the entire array
-			int iLookFor)			// ID to lookfor
+			int iLookFor, ofstream &fout)			// ID to lookfor
 {
 	int index = 0;				//Used as a subscript to search array
 	int position = -1;			//Used to record position of search value
@@ -335,7 +333,7 @@ int search(vector<Scholarship> s, 		//Pass copy of the entire array
 		if (s[index].Amount >= iLookFor)		// If the value is found
 		{
 			position = index;				// Record the value's subscript
-			writeFile(scholars[position], fout);
+			writeFile(s[position], fout);
 		}
 		index++;							// Go to the next element
 	}

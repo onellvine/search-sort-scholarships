@@ -35,5 +35,5 @@ void createReportSummary(vector<Scholarship> sArray, ofstream &fout);
 void writeFile(Scholarship s, ofstream &fout, string sType);
 
 int search(vector<Scholarship> s, string sLookFor);
-int search(vector<Scholarship> s, int iLookFor);
+int search(vector<Scholarship> s, int iLookFor, ofstream &fout);
 void bubbleSort(vector<Scholarship> &s);
